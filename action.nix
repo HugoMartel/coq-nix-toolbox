@@ -116,12 +116,23 @@ with builtins; with lib; let
     run  = "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle \"${bundlestr}\" --argstr job \"${job}\"";
   };
 
-  mkJob = { job, jobs ? [], bundles ? [], deps ? {}, cachix ? {} }:
+  mkJob = { job, jobs ? [], bundles ? [], runs-on ? [ "ubuntu-latest" ],
+            deps ? {}, cachix ? {} }:
     let
       jdeps = deps.${job} or [];
+      osMatrix = length runs-on > 1;
+      bundleMatrix = isList bundles;
+      matrixAttrs = (optionalAttrs osMatrix { os = runs-on; })
+                    // (optionalAttrs bundleMatrix { bundle = bundles; });
+      strategyAttrs =
+        if osMatrix
+        then { strategy = { fail-fast = false; matrix = matrixAttrs; }; }
+        else if bundleMatrix
+        then { strategy.matrix = matrixAttrs; }
+        else {};
     in {
-    "${job}" = rec {
-      runs-on = "ubuntu-latest";
+    "${job}" = {
+      runs-on = if osMatrix then "\${{ matrix.os }}" else head runs-on;
       needs = map (j: "${j}") (filter (j: elem j jobs) jdeps);
       steps = [ stepCommitToInitiallyCheckout stepCheckout1
                 stepCommitToTest stepCheckout2 stepCachixInstall ]
@@ -129,10 +140,11 @@ with builtins; with lib; let
               ++ [ (stepGetDerivation { inherit job bundles; }) stepCheck ]
               ++ (map (job: stepBuild { inherit job bundles; }) jdeps)
               ++ [ (stepBuild { inherit job bundles; current = true; }) ];
-    } // (optionalAttrs (isList bundles) {strategy.matrix.bundle = bundles;});
+    } // strategyAttrs;
   };
 
-  mkJobs = { jobs ? [], bundles ? [], deps ? {}, cachix ? {} }@args:
+  mkJobs = { jobs ? [], bundles ? [], runs-on ? [ "ubuntu-latest" ],
+             deps ? {}, cachix ? {} }@args:
     foldl (action: job: action // (mkJob ({ inherit job; } // args))) {} jobs;
 
   mkActionFromJobs = { actionJobs, bundles ? [], push-branches ? [] }:
@@ -149,13 +161,20 @@ with builtins; with lib; let
         };
       };
       concurrency = {
-        group = "\${{ github.workflow }}-\${{ github.ref }}";
+        group = "\${{ github.workflow }}-\${{ github.head_ref }}";
         cancel-in-progress = true;
       };
+      # The generated jobs only read the repository; they never use the
+      # GITHUB_TOKEN to write.  Being explicit matters because the workflows run
+      # on pull_request_target, where the token is the *target* repository's and
+      # is writable by default unless the repository owner has changed the
+      # default workflow permissions.
+      permissions.contents = "read";
       jobs = actionJobs;
     };
 
-  mkAction = { jobs ? [], bundles ? [], deps ? {}, cachix ? {} }@args:
+  mkAction = { jobs ? [], bundles ? [], runs-on ? [ "ubuntu-latest" ],
+               deps ? {}, cachix ? {} }@args:
       { push-branches ? [] }:
     mkActionFromJobs {inherit bundles push-branches; actionJobs = mkJobs args; };
 

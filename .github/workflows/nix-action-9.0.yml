@@ -1,6 +1,6 @@
 concurrency:
   cancel-in-progress: true
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref }}
 jobs:
   CakeMLExtraction:
     needs:
@@ -8,7 +8,7 @@ jobs:
     - equations
     - metarocq-erasure-plugin
     - ceres-bs
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -78,11 +78,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "CakeMLExtraction"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   Cheerios:
     needs:
     - coq
     - StructTact
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -144,11 +151,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "Cheerios"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   CoLoR:
     needs:
     - coq
     - bignums
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -210,11 +224,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "CoLoR"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   ExtLib:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -276,10 +297,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "ExtLib"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   HoTT:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -337,12 +365,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "HoTT"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   ITree:
     needs:
     - coq
     - ExtLib
     - paco
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -408,11 +443,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "ITree"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   InfSeqExt:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -474,11 +516,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "InfSeqExt"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   LibHyps:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -540,11 +589,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "LibHyps"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   MenhirLib:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -606,11 +662,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "MenhirLib"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   Ordinal:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -672,13 +735,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "Ordinal"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   QuickChick:
     needs:
     - coq
     - mathcomp-boot
     - ExtLib
     - simple-io
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -748,11 +818,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "QuickChick"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   StructTact:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -814,12 +891,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "StructTact"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   VST:
     needs:
     - coq
     - ITree
     - compcert
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -885,11 +969,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "VST"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   aac-tactics:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -951,12 +1042,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "aac-tactics"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   autosubst:
     needs:
     - coq
     - mathcomp-boot
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1022,10 +1120,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "autosubst"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   autosubst-ocaml:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1083,11 +1188,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "autosubst-ocaml"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   bignums:
     needs:
     - rocq-core
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1149,11 +1261,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "bignums"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   ceres:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1215,12 +1334,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "ceres"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   ceres-bs:
     needs:
     - coq
     - stdlib
     - metarocq-utils
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1286,12 +1412,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "ceres-bs"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   compcert:
     needs:
     - coq
     - flocq
     - MenhirLib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1357,10 +1490,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "compcert"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coq:
     needs:
     - rocq-core
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1418,10 +1558,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coq"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coq-elpi:
     needs:
     - rocq-core
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1479,11 +1626,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coq-elpi"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coq-hammer:
     needs:
     - coq
     - coq-hammer-tactics
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1545,11 +1699,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coq-hammer"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coq-hammer-tactics:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1611,10 +1772,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coq-hammer-tactics"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coq-lsp:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1672,10 +1840,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coq-lsp"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coq-record-update:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1733,10 +1908,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coq-record-update"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coq-shell:
     needs:
     - rocq-core
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1794,6 +1976,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coq-shell"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coqeal:
     needs:
     - coq
@@ -1801,7 +1990,7 @@ jobs:
     - bignums
     - multinomials
     - mathcomp-real-closed
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1875,11 +2064,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coqeal"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coqprime:
     needs:
     - coq
     - bignums
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -1941,12 +2137,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coqprime"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coquelicot:
     needs:
     - coq
     - stdlib
     - mathcomp-boot
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2012,11 +2215,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coquelicot"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   coqutil:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2078,12 +2288,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "coqutil"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   deriving:
     needs:
     - coq
     - mathcomp-ssreflect
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2149,10 +2366,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "deriving"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   dpdgraph:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2210,11 +2434,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "dpdgraph"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   equations:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2276,12 +2507,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "equations"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   extructures:
     needs:
     - coq
     - mathcomp-boot
     - deriving
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2347,12 +2585,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "extructures"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   fcsl-pcm:
     needs:
     - coq
     - mathcomp-algebra
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2418,11 +2663,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "fcsl-pcm"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   flocq:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2484,13 +2736,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "flocq"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   fourcolor:
     needs:
     - coq
     - mathcomp-boot
     - mathcomp-fingroup
     - mathcomp-algebra
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2560,6 +2819,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "fourcolor"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   gaia:
     needs:
     - coq
@@ -2567,7 +2833,7 @@ jobs:
     - mathcomp-fingroup
     - mathcomp-algebra
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2641,6 +2907,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "gaia"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   graph-theory:
     needs:
     - coq
@@ -2650,7 +2923,7 @@ jobs:
     - fourcolor
     - stdlib
     - mathcomp-algebra-tactics
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2732,11 +3005,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "graph-theory"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   hierarchy-builder:
     needs:
     - rocq-core
     - coq-elpi
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2798,6 +3078,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "hierarchy-builder"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   interval:
     needs:
     - coq
@@ -2806,7 +3093,7 @@ jobs:
     - flocq
     - mathcomp-boot
     - mathcomp-fingroup
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2884,11 +3171,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "interval"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   iris:
     needs:
     - rocq-core
     - stdpp
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -2950,13 +3244,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "iris"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   jasmin:
     needs:
     - coq
     - mathcomp-word
     - mathcomp-algebra-tactics
     - ITree
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3026,12 +3327,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "jasmin"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   json:
     needs:
     - coq
     - parsec
     - MenhirLib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3097,6 +3405,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "json"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   libvalidsdp:
     needs:
     - coq
@@ -3106,7 +3421,7 @@ jobs:
     - coquelicot
     - interval
     - mathcomp-reals-stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3188,12 +3503,92 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "libvalidsdp"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
+  math-classes:
+    needs:
+    - coq
+    - bignums
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Determine which commit to initially checkout
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v7
+      with:
+        allow-unsafe-pr-checkout: true
+        fetch-depth: 0
+        ref: ${{ env.target_commit }}
+    - name: Determine which commit to test
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"tested_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  merge_commit=$(git ls-remote ${{ github.event.repository.html_url
+        }} refs/pull/${{ github.event.number }}/merge | cut -f1)\n  mergeable=$(git
+        merge --no-commit --no-ff ${{ github.event.pull_request.base.sha }} > /dev/null
+        2>&1; echo $?; git merge --abort > /dev/null 2>&1 || true)\n  if [ -z \"$merge_commit\"\
+        \ -o \"x$mergeable\" != \"x0\" ]; then\n    echo \"tested_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\n  else\n    echo \"tested_commit=$merge_commit\" >> $GITHUB_ENV\n\
+        \  fi\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v7
+      with:
+        allow-unsafe-pr-checkout: true
+        fetch-depth: 0
+        ref: ${{ env.tested_commit }}
+    - name: Cachix install
+      uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixpkgs-unstable
+    - name: Cachix setup coq-community
+      uses: cachix/cachix-action@v16
+      with:
+        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        extraPullNames: coq, math-comp
+        name: coq-community
+    - id: stepGetDerivation
+      name: Getting derivation for current job (math-classes)
+      run: "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link \\\n   --argstr bundle
+        \"9.0\" --argstr job \"math-classes\" \\\n   --dry-run 2> err > out || (touch
+        fail; true)\ncat out err\nif [ -e fail ]; then echo \"Error: getting derivation
+        failed\"; exit 1; fi\n"
+    - id: stepCheck
+      name: Checking presence of CI target for current job
+      run: "if $(cat out err | grep -q \"built:\") ; then\n  echo \"CI target needs
+        actual building\"\n  if $(cat out err | grep -q \"derivations will be built:\"\
+        ) ; then\n    echo \"waiting a bit for derivations that should be in cache\"\
+        \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
+        status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: coq'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "coq"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: bignums'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "bignums"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: Building/fetching current CI target
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "math-classes"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp:
     needs:
     - rocq-core
     - mathcomp-character
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3259,13 +3654,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-algebra:
     needs:
     - rocq-core
     - mathcomp-order
     - mathcomp-fingroup
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3335,6 +3737,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-algebra"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-algebra-tactics:
     needs:
     - coq
@@ -3342,7 +3751,7 @@ jobs:
     - mathcomp-algebra
     - coq-elpi
     - mathcomp-zify
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3416,6 +3825,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-algebra-tactics"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-analysis:
     needs:
     - rocq-core
@@ -3424,7 +3840,7 @@ jobs:
     - mathcomp-bigenough
     - mathcomp-real-closed
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3502,6 +3918,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-analysis"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-analysis-stdlib:
     needs:
     - rocq-core
@@ -3509,7 +3932,7 @@ jobs:
     - mathcomp-reals-stdlib
     - stdlib
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3583,11 +4006,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-analysis-stdlib"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-bigenough:
     needs:
     - rocq-core
     - mathcomp-boot
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3649,11 +4079,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-bigenough"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-boot:
     needs:
     - rocq-core
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3715,12 +4152,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-boot"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-character:
     needs:
     - rocq-core
     - mathcomp-field
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3786,13 +4230,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-character"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-classical:
     needs:
     - rocq-core
     - mathcomp-algebra
     - mathcomp-finmap
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3862,13 +4313,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-classical"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-experimental-reals:
     needs:
     - rocq-core
     - mathcomp-analysis
     - mathcomp-bigenough
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -3938,12 +4396,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-experimental-reals"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-field:
     needs:
     - rocq-core
     - mathcomp-solvable
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4009,12 +4474,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-field"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-fingroup:
     needs:
     - rocq-core
     - mathcomp-boot
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4080,11 +4552,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-fingroup"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-finmap:
     needs:
     - coq
     - mathcomp-boot
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4146,13 +4625,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-finmap"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-infotheo:
     needs:
     - coq
     - mathcomp-analysis-stdlib
     - mathcomp-algebra-tactics
     - interval
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4222,12 +4708,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-infotheo"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-order:
     needs:
     - rocq-core
     - mathcomp-boot
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4293,12 +4786,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-order"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-real-closed:
     needs:
     - rocq-core
     - mathcomp-field
     - mathcomp-bigenough
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4364,12 +4864,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-real-closed"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-reals:
     needs:
     - rocq-core
     - mathcomp-classical
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4435,13 +4942,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-reals"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-reals-stdlib:
     needs:
     - rocq-core
     - mathcomp-reals
     - stdlib
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4511,12 +5025,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-reals-stdlib"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-solvable:
     needs:
     - rocq-core
     - mathcomp-algebra
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4582,13 +5103,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-solvable"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-ssreflect:
     needs:
     - rocq-core
     - mathcomp-boot
     - mathcomp-order
     - hierarchy-builder
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4658,12 +5186,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-ssreflect"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-tarjan:
     needs:
     - coq
     - mathcomp-ssreflect
     - mathcomp-fingroup
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4729,6 +5264,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-tarjan"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-word:
     needs:
     - coq
@@ -4736,7 +5278,7 @@ jobs:
     - mathcomp-ssreflect
     - mathcomp-fingroup
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4810,14 +5352,21 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-word"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mathcomp-zify:
     needs:
-    - coq
+    - rocq-core
     - mathcomp-boot
     - mathcomp-algebra
     - mathcomp-fingroup
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4868,9 +5417,9 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
-      name: 'Building/fetching previous CI target: coq'
+      name: 'Building/fetching previous CI target: rocq-core'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
-        --argstr job "coq"
+        --argstr job "rocq-core"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
@@ -4891,6 +5440,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mathcomp-zify"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq:
     needs:
     - coq
@@ -4901,7 +5457,7 @@ jobs:
     - metarocq-erasure-plugin
     - metarocq-translations
     - metarocq-quotation
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -4987,6 +5543,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-common:
     needs:
     - coq
@@ -4994,7 +5557,7 @@ jobs:
     - ExtLib
     - stdlib
     - metarocq-utils
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5068,6 +5631,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-common"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-erasure:
     needs:
     - coq
@@ -5076,7 +5646,7 @@ jobs:
     - stdlib
     - metarocq-safechecker
     - metarocq-template-pcuic
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5154,6 +5724,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-erasure"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-erasure-plugin:
     needs:
     - coq
@@ -5162,7 +5739,7 @@ jobs:
     - stdlib
     - metarocq-template-pcuic
     - metarocq-erasure
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5240,6 +5817,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-erasure-plugin"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-pcuic:
     needs:
     - coq
@@ -5247,7 +5831,7 @@ jobs:
     - ExtLib
     - stdlib
     - metarocq-common
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5321,6 +5905,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-pcuic"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-quotation:
     needs:
     - coq
@@ -5330,7 +5921,7 @@ jobs:
     - metarocq-template-rocq
     - metarocq-pcuic
     - metarocq-template-pcuic
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5412,6 +6003,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-quotation"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-safechecker:
     needs:
     - coq
@@ -5419,7 +6017,7 @@ jobs:
     - ExtLib
     - stdlib
     - metarocq-pcuic
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5493,6 +6091,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-safechecker"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-safechecker-plugin:
     needs:
     - coq
@@ -5501,7 +6106,7 @@ jobs:
     - stdlib
     - metarocq-template-pcuic
     - metarocq-safechecker
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5579,6 +6184,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-safechecker-plugin"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-template-pcuic:
     needs:
     - coq
@@ -5587,7 +6199,7 @@ jobs:
     - stdlib
     - metarocq-template-rocq
     - metarocq-pcuic
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5665,6 +6277,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-template-pcuic"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-template-rocq:
     needs:
     - coq
@@ -5672,7 +6291,7 @@ jobs:
     - ExtLib
     - stdlib
     - metarocq-common
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5746,6 +6365,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-template-rocq"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-translations:
     needs:
     - coq
@@ -5753,7 +6379,7 @@ jobs:
     - ExtLib
     - stdlib
     - metarocq-template-rocq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5827,13 +6453,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-translations"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   metarocq-utils:
     needs:
     - coq
     - equations
     - ExtLib
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5903,10 +6536,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "metarocq-utils"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   micromega-plugin:
     needs:
     - rocq-core
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -5964,12 +6604,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "micromega-plugin"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   mtac2:
     needs:
     - coq
     - stdlib
     - unicoq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6035,6 +6682,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "mtac2"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   multinomials:
     needs:
     - coq
@@ -6043,7 +6697,7 @@ jobs:
     - mathcomp-finmap
     - mathcomp-fingroup
     - mathcomp-bigenough
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6121,11 +6775,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "multinomials"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   odd-order:
     needs:
     - coq
     - mathcomp-character
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6187,11 +6848,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "odd-order"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   paco:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6253,10 +6921,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "paco"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   paramcoq:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6314,12 +6989,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "paramcoq"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   parsec:
     needs:
     - coq
     - ceres
     - ExtLib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6385,11 +7067,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "parsec"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   parseque:
     needs:
     - rocq-core
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6451,12 +7140,19 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "parseque"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   reglang:
     needs:
     - coq
     - mathcomp-ssreflect
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6522,13 +7218,20 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "reglang"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   relation-algebra:
     needs:
     - rocq-core
     - aac-tactics
     - mathcomp-boot
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6598,11 +7301,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "relation-algebra"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   rewriter:
     needs:
     - coq
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6664,9 +7374,16 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "rewriter"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   rocq-core:
     needs: []
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6720,10 +7437,163 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "rocq-core"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
+  rocqide:
+    needs:
+    - rocq-core
+    - rocqide-server
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Determine which commit to initially checkout
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v7
+      with:
+        allow-unsafe-pr-checkout: true
+        fetch-depth: 0
+        ref: ${{ env.target_commit }}
+    - name: Determine which commit to test
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"tested_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  merge_commit=$(git ls-remote ${{ github.event.repository.html_url
+        }} refs/pull/${{ github.event.number }}/merge | cut -f1)\n  mergeable=$(git
+        merge --no-commit --no-ff ${{ github.event.pull_request.base.sha }} > /dev/null
+        2>&1; echo $?; git merge --abort > /dev/null 2>&1 || true)\n  if [ -z \"$merge_commit\"\
+        \ -o \"x$mergeable\" != \"x0\" ]; then\n    echo \"tested_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\n  else\n    echo \"tested_commit=$merge_commit\" >> $GITHUB_ENV\n\
+        \  fi\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v7
+      with:
+        allow-unsafe-pr-checkout: true
+        fetch-depth: 0
+        ref: ${{ env.tested_commit }}
+    - name: Cachix install
+      uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixpkgs-unstable
+    - name: Cachix setup coq-community
+      uses: cachix/cachix-action@v16
+      with:
+        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        extraPullNames: coq, math-comp
+        name: coq-community
+    - id: stepGetDerivation
+      name: Getting derivation for current job (rocqide)
+      run: "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link \\\n   --argstr bundle
+        \"9.0\" --argstr job \"rocqide\" \\\n   --dry-run 2> err > out || (touch fail;
+        true)\ncat out err\nif [ -e fail ]; then echo \"Error: getting derivation
+        failed\"; exit 1; fi\n"
+    - id: stepCheck
+      name: Checking presence of CI target for current job
+      run: "if $(cat out err | grep -q \"built:\") ; then\n  echo \"CI target needs
+        actual building\"\n  if $(cat out err | grep -q \"derivations will be built:\"\
+        ) ; then\n    echo \"waiting a bit for derivations that should be in cache\"\
+        \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
+        status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocqide-server'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "rocqide-server"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: Building/fetching current CI target
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "rocqide"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
+  rocqide-server:
+    needs:
+    - rocq-core
+    - rocq-core
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Determine which commit to initially checkout
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v7
+      with:
+        allow-unsafe-pr-checkout: true
+        fetch-depth: 0
+        ref: ${{ env.target_commit }}
+    - name: Determine which commit to test
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"tested_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  merge_commit=$(git ls-remote ${{ github.event.repository.html_url
+        }} refs/pull/${{ github.event.number }}/merge | cut -f1)\n  mergeable=$(git
+        merge --no-commit --no-ff ${{ github.event.pull_request.base.sha }} > /dev/null
+        2>&1; echo $?; git merge --abort > /dev/null 2>&1 || true)\n  if [ -z \"$merge_commit\"\
+        \ -o \"x$mergeable\" != \"x0\" ]; then\n    echo \"tested_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\n  else\n    echo \"tested_commit=$merge_commit\" >> $GITHUB_ENV\n\
+        \  fi\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v7
+      with:
+        allow-unsafe-pr-checkout: true
+        fetch-depth: 0
+        ref: ${{ env.tested_commit }}
+    - name: Cachix install
+      uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixpkgs-unstable
+    - name: Cachix setup coq-community
+      uses: cachix/cachix-action@v16
+      with:
+        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        extraPullNames: coq, math-comp
+        name: coq-community
+    - id: stepGetDerivation
+      name: Getting derivation for current job (rocqide-server)
+      run: "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link \\\n   --argstr bundle
+        \"9.0\" --argstr job \"rocqide-server\" \\\n   --dry-run 2> err > out || (touch
+        fail; true)\ncat out err\nif [ -e fail ]; then echo \"Error: getting derivation
+        failed\"; exit 1; fi\n"
+    - id: stepCheck
+      name: Checking presence of CI target for current job
+      run: "if $(cat out err | grep -q \"built:\") ; then\n  echo \"CI target needs
+        actual building\"\n  if $(cat out err | grep -q \"derivations will be built:\"\
+        ) ; then\n    echo \"waiting a bit for derivations that should be in cache\"\
+        \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
+        status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: Building/fetching current CI target
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
+        --argstr job "rocqide-server"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   rocqnavi:
     needs:
     - rocq-core
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6781,11 +7651,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "rocqnavi"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   simple-io:
     needs:
     - coq
     - ExtLib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6847,6 +7724,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "simple-io"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   ssprove:
     needs:
     - coq
@@ -6857,7 +7741,7 @@ jobs:
     - extructures
     - deriving
     - mathcomp-word
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -6943,10 +7827,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "ssprove"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   stdlib:
     needs:
     - rocq-core
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -7004,11 +7895,18 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "stdlib"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   stdpp:
     needs:
     - rocq-core
     - stdlib
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -7070,10 +7968,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "stdpp"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   unicoq:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -7131,6 +8036,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "unicoq"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   validsdp:
     needs:
     - coq
@@ -7142,7 +8054,7 @@ jobs:
     - mathcomp-reals-stdlib
     - multinomials
     - coqeal
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -7232,10 +8144,17 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "validsdp"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   vsrocq-language-server:
     needs:
     - coq
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -7293,6 +8212,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "vsrocq-language-server"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
   wasmcert:
     needs:
     - coq
@@ -7301,7 +8227,7 @@ jobs:
     - parseque
     - flocq
     - compcert
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Determine which commit to initially checkout
       run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
@@ -7379,6 +8305,13 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "9.0" 
         --argstr job "wasmcert"
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - ubuntu-24.04-arm
+        - macos-latest
 name: Nix CI for bundle 9.0
 on:
   pull_request:
@@ -7394,3 +8327,5 @@ on:
   push:
     branches:
     - master
+permissions:
+  contents: read
